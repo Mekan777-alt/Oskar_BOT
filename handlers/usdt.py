@@ -1,12 +1,16 @@
-import asyncio
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
-from aiogram.fsm.context import FSMContext
-from keyboard.open_account import open_account_markup
+from config import session
+from sqlalchemy import select
+from data.base import USDT
 
 router = Router()
 
 
 @router.message(F.text == "👉 Перестановка USDT")
 async def open_chat(message: types.Message):
-    await message.answer("Тут будет какая-то логика", reply_markup=main_keyboard())
+    data_from_db = session.scalar(select(USDT))
+    message_from_db = data_from_db.message
+    reference_from_db = data_from_db.reference
+    await message.answer(f"{message_from_db}\n\n{reference_from_db}",
+                         reply_markup=main_keyboard())

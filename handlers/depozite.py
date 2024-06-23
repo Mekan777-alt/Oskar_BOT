@@ -1,9 +1,11 @@
 import asyncio
+from sqlalchemy import select
 from keyboard.main import main_keyboard
 from keyboard.open_account import open_account_markup
 from aiogram import Router, F, types
-from aiogram.fsm.context import FSMContext
+from config import session, bot
 from keyboard.depozite import markup_depozite
+from data.base import Deposited
 
 router = Router()
 
@@ -15,7 +17,12 @@ async def get_depozite(message: types.Message):
 
 @router.message(F.text == "👉 Cчет открыт")
 async def check_depozite(message: types.Message):
-    await message.answer("Тут отправляется инструкция")
+    data_from_db = session.scalar(select(Deposited))
+    message_from_db = data_from_db.item2_1_message
+    reference_from_db = data_from_db.item2_1_reference
+    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}")
+    # if data_from_db.item2_1_document:
+    #     await bot.send_document()
 
 
 @router.message(F.text == "👉 Cчет не открыт")

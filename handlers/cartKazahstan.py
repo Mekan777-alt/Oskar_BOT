@@ -1,9 +1,16 @@
 import asyncio
+import mimetypes
+from io import BytesIO
+
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 from keyboard.cartKazahstan import cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
+from sqlalchemy import select
+from config import session, bot
+from data.base import KazahstanCart
+from aiogram.types import FSInputFile, InputFile
 
 router = Router()
 
@@ -65,12 +72,26 @@ async def get_IIN(message: types.Message, state: FSMContext):
 
 @router.message(F.text == "👉 Инструкция по получению ИИН")
 async def get_instructions_IIN(message: types.Message):
-    await message.answer("дать контакт кто делает пока не решил", reply_markup=main_keyboard())
+    data_from_db = session.scalar(select(KazahstanCart))
+    message_from_db = data_from_db.item1_2_message
+    reference_from_db = data_from_db.item1_2_reference
+    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}",
+                         reply_markup=main_keyboard())
+    if data_from_db.item1_2_document:
+        file_content = data_from_db.item1_2_document['content_type']
+        file_io = BytesIO(file_content)
+        file_io.seek(0)  # Reset the buffer to the beginning
+        file_content_type, _ = mimetypes.guess_type(file_content)
+        file = FSInputFile(filename="document.pdf")
+        await bot.send_document(chat_id=message.from_user.id, document=file)
 
 
 @router.message(F.text == "👉 Ссылка на получение документов для налоговой и разъяснения")
 async def send_request_(message: types.Message):
-    await message.answer("Тут будет ссылка на получение документов для налоговой и разъяснения",
+    data_from_db = session.scalar(select(KazahstanCart))
+    message_from_db = data_from_db.item1_3_message
+    reference_from_db = data_from_db.item1_3_reference
+    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}",
                          reply_markup=main_keyboard())
 
 

@@ -4,22 +4,16 @@ from sqlalchemy.orm import Session
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
-from data.base import Base
 
 load_dotenv()
 
 
-# db_name = os.getenv('DBNAME')
-# db_user = os.getenv('DBUSER')
-# db_pass = os.getenv('DBPASSWORD')
-# db_host = os.getenv('DBHOST')
-# db_port = os.getenv('DBPORT')
-#
-# db_url = f'postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}'
-#
-# engine = create_engine(db_url, echo=False)
-# Base.metadata.create_all(engine)
-# session = Session(engine)
+DATABASE_FILE = "db.sqlite"
+UPLOAD_DIR = "upload/"
+ENGINE_URI = "sqlite:///" + DATABASE_FILE
+
+engine = create_engine(ENGINE_URI, echo=False)
+session = Session(engine)
 
 token = os.getenv('TOKEN')
 bot = Bot(token=token)

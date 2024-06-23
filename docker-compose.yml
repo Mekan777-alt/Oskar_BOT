@@ -1,19 +1,4 @@
 services:
-  db:
-    image: bitnami/postgresql
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_USER=${DBUSER}
-      - POSTGRES_PASSWORD=${DBPASSWORD}
-      - POSTGRES_DB=${DBNAME}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - mynetwork
-    logging:
-      -driver: "none"
-
   app:
     build:
       context: .
@@ -24,28 +9,3 @@ services:
       - db
     env_file:
       - .env
-    environment:
-      - DB_HOST=db
-    networks:
-      - mynetwork
-
-  starlette_admin:
-    container_name: starlette_admin
-    build:
-      context: .
-      dockerfile: ./Dockerfile_admin
-    ports:
-      - "8001:8001"
-    networks:
-      - mynetwork
-    depends_on:
-      - db
-    logging:
-      driver: "none"
-
-volumes:
-  postgres_data:
-
-networks:
-  mynetwork:
-    driver: bridge
