@@ -8,14 +8,14 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# Установите переменные окружения для режима продакшн
+
 ENV DJANGO_SETTINGS_MODULE=admin.settings
 ENV DEBUG=False
 
-# Создайте директорию для статических файлов
+
 RUN mkdir -p /app/static
 
-# Выполните collectstatic
+
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
