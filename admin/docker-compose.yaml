@@ -3,20 +3,6 @@ networks:
     driver: bridge
 
 services:
-  django:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      - DJANGO_SETTINGS_MODULE=admin.settings
-    networks:
-      - mynetwork
-
   db:
     image: postgres
     ports:
@@ -29,6 +15,20 @@ services:
       - POSTGRES_PASSWORD=${POST_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  django:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=admin.settings
     networks:
       - mynetwork
 
