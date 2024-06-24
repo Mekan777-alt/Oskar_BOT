@@ -1,4 +1,6 @@
-version: '3'
+networks:
+  mynetwork:
+    driver: bridge
 
 services:
   django:
@@ -12,13 +14,23 @@ services:
       - db
     environment:
       - DJANGO_SETTINGS_MODULE=admin.settings
+    networks:
+      - mynetwork
 
   db:
     image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=${POST_DB}
       - POSTGRES_USER=${POST_USER}
       - POSTGRES_PASSWORD=${POST_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
 
   nginx:
     image: nginx:latest
