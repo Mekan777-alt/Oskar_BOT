@@ -16,7 +16,7 @@ database = os.getenv("POST_DB")
 
 ENGINE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
 
-engine = create_engine(ENGINE_URI, echo=True)
+engine = create_engine(ENGINE_URI, echo=False)
 session = Session(engine)
 
 token = os.getenv('TOKEN')

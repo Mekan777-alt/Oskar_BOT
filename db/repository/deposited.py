@@ -14,12 +14,18 @@ def get_reference():
 
 def get_document():
     document = session.execute(text("""SELECT item2_1_document FROM admin_panel_deposited""")).first()
-    return document[0] if document else None
+    if len(document[0]) > 1:
+        return document[0]
+    else:
+        return None
 
 
 def get_document_reserved():
     document = session.execute(text("""SELECT item2_1_document_reserve FROM admin_panel_deposited""")).first()
-    return document[0] if document else None
+    if document:
+        return document[0]
+    else:
+        return None
 
 
 def message_for_deposited():

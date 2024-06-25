@@ -5,10 +5,10 @@ from aiogram.fsm.context import FSMContext
 from keyboard.cartKazahstan import cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
 from config import bot
-from db.repository.cart_kazahstan1_2 import (get_document1_2, get_document_reserved1_2, get_message1_2, get_reference1_2,
-                                             message_for_cart_kazahstan1_2)
-from db.repository.cart_kazahstan1_3 import (get_message1_3, get_reference1_3, get_document1_3, get_document_reserved1_3,
-                                             message_for_cart_kazahstan1_3)
+from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
+from db.repository.cart_kazahstan1_3 import get_document1_3, get_document_reserved1_3, message_for_cart_kazahstan1_3
+from .settings import download_file, delete_file
+from aiogram.types import FSInputFile
 
 router = Router()
 
@@ -71,27 +71,66 @@ async def get_IIN(message: types.Message, state: FSMContext):
 @router.message(F.text == "👉 Инструкция по получению ИИН")
 async def get_instructions_IIN(message: types.Message):
     message_text = message_for_cart_kazahstan1_2()
-    if message_text:
+    if len(message_text) > 2:
         await message.answer(text=message_text, reply_markup=main_keyboard())
     else:
         await message.answer(text="Заполните данные в админке", markup=main_keyboard())
-    if get_document1_2():
-        await bot.send_document(chat_id=message.from_user.id, document=get_document1_2())
-    if get_document_reserved1_2():
-        await bot.send_document(chat_id=message.from_user.id, document=get_document_reserved1_2())
+    document_url = get_document1_2()
+    if document_url:
+        local_filename = str(document_url).split('/')[-1]
+        try:
+            file_down = await download_file(f"http://91.142.74.227:8000/media/{document_url}", local_filename)
+            send_file = FSInputFile(file_down)
+            await bot.send_document(chat_id=message.from_user.id, document=send_file)
+        except Exception as e:
+            await message.answer(text=f"Ошибка загрузки документа: {e}")
+        finally:
+            await delete_file(local_filename)
+
+    document_reserved_url = get_document_reserved1_2()
+    if document_reserved_url:
+        local_filename = str(document_reserved_url).split('/')[-1]
+        try:
+            file_down = await download_file(f"http://91.142.74.227:8000/media/{document_reserved_url}", local_filename)
+            send_file = FSInputFile(file_down)
+            await bot.send_document(chat_id=message.from_user.id, document=send_file)
+        except Exception as e:
+            await message.answer(text=f"Ошибка загрузки документа: {e}")
+        finally:
+            await delete_file(local_filename)
 
 
 @router.message(F.text == "👉 Ссылка на получение документов для налоговой и разъяснения")
 async def send_request_(message: types.Message):
     message_text = message_for_cart_kazahstan1_3()
-    if message_text:
+    if len(message_text) > 2:
         await message.answer(text=message_text, reply_markup=main_keyboard())
     else:
         await message.answer(text="Заполните данные в админке", markup=main_keyboard())
-    if get_document1_3():
-        await bot.send_document(chat_id=message.from_user.id, document=get_document1_3())
-    if get_document_reserved1_3():
-        await bot.send_document(chat_id=message.from_user.id, document=get_document_reserved1_3())
+    document_url = get_document1_3()
+    if document_url:
+        local_filename = str(document_url).split('/')[-1]
+        try:
+            file_down = await download_file(f"http://91.142.74.227:8000/media/{document_url}", local_filename)
+            send_file = FSInputFile(file_down)
+            await bot.send_document(chat_id=message.from_user.id, document=send_file)
+        except Exception as e:
+            await message.answer(text=f"Ошибка загрузки документа: {e}")
+        finally:
+            await delete_file(local_filename)
+
+    document_reserved_url = get_document_reserved1_3()
+    if document_reserved_url:
+        local_filename = str(document_reserved_url).split('/')[-1]
+        try:
+            file_down = await download_file(f"http://91.142.74.227:8000/media/{document_reserved_url}", local_filename)
+            send_file = FSInputFile(file_down)
+            await bot.send_document(chat_id=message.from_user.id, document=send_file)
+        except Exception as e:
+            await message.answer(text=f"Ошибка загрузки документа: {e}")
+        finally:
+            await delete_file(local_filename)
+
 
 
 @router.message(F.text == "👉 В главное меню")
