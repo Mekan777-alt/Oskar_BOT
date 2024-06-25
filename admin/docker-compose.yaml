@@ -24,6 +24,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - .:/app
+      - static_volume:/app/static
     ports:
       - "8000:8000"
     depends_on:
@@ -36,12 +37,12 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - ./static:/app/static
+      - static_volume:/app/static
     ports:
       - "80:80"
     depends_on:
       - django
 
 volumes:
-  static:
+  static_volume:
   postgres_data:
