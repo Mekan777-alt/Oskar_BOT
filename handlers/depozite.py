@@ -1,11 +1,10 @@
-import asyncio
 from sqlalchemy import select
 from keyboard.main import main_keyboard
 from keyboard.open_account import open_account_markup
 from aiogram import Router, F, types
 from config import session, bot
 from keyboard.depozite import markup_depozite
-from data.base import Deposited
+
 
 router = Router()
 

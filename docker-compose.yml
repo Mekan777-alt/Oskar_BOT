@@ -5,7 +5,5 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
-    depends_on:
-      - db
     env_file:
       - .env

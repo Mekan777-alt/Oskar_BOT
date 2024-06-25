@@ -2,7 +2,7 @@ from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from config import session
 from sqlalchemy import select
-from data.base import USDT
+
 
 router = Router()
 

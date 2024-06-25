@@ -7,12 +7,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+user = os.getenv("POST_USER")
+password = os.getenv("POST_PASSWORD")
+host = os.getenv("POST_HOST")
+port = os.getenv("POST_PORT")
+database = os.getenv("POST_DB")
 
-DATABASE_FILE = "db.sqlite"
-UPLOAD_DIR = "upload/"
-ENGINE_URI = "sqlite:///" + DATABASE_FILE
 
-engine = create_engine(ENGINE_URI, echo=False)
+ENGINE_URI = f"postgresql://{user}:{password}@{host}:{port}/{database}"
+
+engine = create_engine(ENGINE_URI, echo=True)
 session = Session(engine)
 
 token = os.getenv('TOKEN')

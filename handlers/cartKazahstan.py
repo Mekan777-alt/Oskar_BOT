@@ -1,7 +1,6 @@
 import asyncio
 import mimetypes
 from io import BytesIO
-
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
@@ -9,8 +8,7 @@ from keyboard.cartKazahstan import cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
 from sqlalchemy import select
 from config import session, bot
-from data.base import KazahstanCart
-from aiogram.types import FSInputFile, InputFile
+from aiogram.types import FSInputFile
 
 router = Router()
 

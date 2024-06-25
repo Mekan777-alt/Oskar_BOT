@@ -1,10 +1,9 @@
-import os
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from keyboard.open_account import open_account_markup
 from config import bot, session
 from sqlalchemy import select
-from data.base import OpenAccount
+
 
 router = Router()
 
