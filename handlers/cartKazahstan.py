@@ -71,7 +71,10 @@ async def get_IIN(message: types.Message, state: FSMContext):
 @router.message(F.text == "👉 Инструкция по получению ИИН")
 async def get_instructions_IIN(message: types.Message):
     message_text = message_for_cart_kazahstan1_2()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     if get_document1_2():
         await bot.send_document(chat_id=message.from_user.id, document=get_document1_2())
     if get_document_reserved1_2():
@@ -81,7 +84,10 @@ async def get_instructions_IIN(message: types.Message):
 @router.message(F.text == "👉 Ссылка на получение документов для налоговой и разъяснения")
 async def send_request_(message: types.Message):
     message_text = message_for_cart_kazahstan1_3()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     if get_document1_3():
         await bot.send_document(chat_id=message.from_user.id, document=get_document1_3())
     if get_document_reserved1_3():

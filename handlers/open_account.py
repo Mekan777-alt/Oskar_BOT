@@ -17,7 +17,10 @@ async def open_account(message: types.Message):
 @router.message(F.text == "👉 АМ")
 async def get_AM(message: types.Message):
     message_text = message_for_open_account3_1()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     if get_document3_1():
         await bot.send_document(chat_id=message.from_user.id, document=get_document3_1())
     if get_document_reserved3_1():
@@ -27,7 +30,10 @@ async def get_AM(message: types.Message):
 @router.message(F.text == "👉 Казахстан")
 async def get_kz(message: types.Message):
     message_text = message_for_open_account3_2()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     if get_document3_2():
         await bot.send_document(chat_id=message.from_user.id, document=get_document3_2())
     if get_document_reserved3_2():

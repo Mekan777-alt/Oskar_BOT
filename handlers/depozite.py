@@ -17,7 +17,10 @@ async def get_depozite(message: types.Message):
 @router.message(F.text == "👉 Cчет открыт")
 async def check_depozite(message: types.Message):
     message_text = message_for_deposited()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     if get_document():
         await bot.send_document(chat_id=message.from_user.id, document=get_document())
     if get_document_reserved():

@@ -10,4 +10,7 @@ router = Router()
 @router.message(F.text == "👉 Переход в чат")
 async def open_chat(message: types.Message):
     message_text = message_for_go_to_chat()
-    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if message_text:
+        await message.answer(text=message_text, reply_markup=main_keyboard())
+    else:
+        await message.answer(text="Заполните данные в админке", markup=main_keyboard())
