@@ -1,7 +1,7 @@
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
-from config import session
-from sqlalchemy import select
+from config import bot
+from db.repository.go_to_chat import get_message, get_reference, message_for_go_to_chat
 
 
 router = Router()
@@ -9,8 +9,5 @@ router = Router()
 
 @router.message(F.text == "👉 Переход в чат")
 async def open_chat(message: types.Message):
-    data_from_db = session.scalar(select(GoToChat))
-    message_from_db = data_from_db.message
-    reference_from_db = data_from_db.reference
-    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}",
-                         reply_markup=main_keyboard())
+    message_text = message_for_go_to_chat()
+    await message.answer(text=message_text, reply_markup=main_keyboard())

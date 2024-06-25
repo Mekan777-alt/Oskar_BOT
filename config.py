@@ -14,7 +14,7 @@ port = os.getenv("POST_PORT")
 database = os.getenv("POST_DB")
 
 
-ENGINE_URI = f"postgresql://{user}:{password}@{host}:{port}/{database}"
+ENGINE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
 
 engine = create_engine(ENGINE_URI, echo=True)
 session = Session(engine)

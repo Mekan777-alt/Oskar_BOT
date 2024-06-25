@@ -1,14 +1,14 @@
 import asyncio
-import mimetypes
-from io import BytesIO
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 from keyboard.cartKazahstan import cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
-from sqlalchemy import select
-from config import session, bot
-from aiogram.types import FSInputFile
+from config import bot
+from db.repository.cart_kazahstan1_2 import (get_document1_2, get_document_reserved1_2, get_message1_2, get_reference1_2,
+                                             message_for_cart_kazahstan1_2)
+from db.repository.cart_kazahstan1_3 import (get_message1_3, get_reference1_3, get_document1_3, get_document_reserved1_3,
+                                             message_for_cart_kazahstan1_3)
 
 router = Router()
 
@@ -70,27 +70,22 @@ async def get_IIN(message: types.Message, state: FSMContext):
 
 @router.message(F.text == "👉 Инструкция по получению ИИН")
 async def get_instructions_IIN(message: types.Message):
-    data_from_db = session.scalar(select(KazahstanCart))
-    message_from_db = data_from_db.item1_2_message
-    reference_from_db = data_from_db.item1_2_reference
-    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}",
-                         reply_markup=main_keyboard())
-    if data_from_db.item1_2_document:
-        file_content = data_from_db.item1_2_document['content_type']
-        file_io = BytesIO(file_content)
-        file_io.seek(0)  # Reset the buffer to the beginning
-        file_content_type, _ = mimetypes.guess_type(file_content)
-        file = FSInputFile(filename="document.pdf")
-        await bot.send_document(chat_id=message.from_user.id, document=file)
+    message_text = message_for_cart_kazahstan1_2()
+    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if get_document1_2():
+        await bot.send_document(chat_id=message.from_user.id, document=get_document1_2())
+    if get_document_reserved1_2():
+        await bot.send_document(chat_id=message.from_user.id, document=get_document_reserved1_2())
 
 
 @router.message(F.text == "👉 Ссылка на получение документов для налоговой и разъяснения")
 async def send_request_(message: types.Message):
-    data_from_db = session.scalar(select(KazahstanCart))
-    message_from_db = data_from_db.item1_3_message
-    reference_from_db = data_from_db.item1_3_reference
-    await message.answer(f"{message_from_db}\n\n{reference_from_db if reference_from_db else ''}",
-                         reply_markup=main_keyboard())
+    message_text = message_for_cart_kazahstan1_3()
+    await message.answer(text=message_text, reply_markup=main_keyboard())
+    if get_document1_3():
+        await bot.send_document(chat_id=message.from_user.id, document=get_document1_3())
+    if get_document_reserved1_3():
+        await bot.send_document(chat_id=message.from_user.id, document=get_document_reserved1_3())
 
 
 @router.message(F.text == "👉 В главное меню")
