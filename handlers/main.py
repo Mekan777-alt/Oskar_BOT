@@ -24,7 +24,7 @@ async def start(message: types.Message):
 
 @router.message(F.text == "👉 Подписался")
 async def start_parse_chat(message: types.Message):
-    channel_id = '-1002161715921'
+    channel_id = '-1002158982311'
     if not await is_subscribed(message.from_user.id, channel_id):
         await message.answer('Вы должны подписаться на наш канал, чтобы получить доступ к этому контенту!\n\n'
                              'https://t.me/+cWldq2n39Sw1N2Fi',
