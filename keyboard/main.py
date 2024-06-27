@@ -1,6 +1,14 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 
+def chat_parse():
+    buttons = [
+        [KeyboardButton(text="👉 Подписался")]
+    ]
+    markup = ReplyKeyboardMarkup(keyboard=buttons)
+    return markup
+
+
 def main_keyboard():
     buttons = [
         [KeyboardButton(text="👉 Карта Казахстана")],
