@@ -5,7 +5,7 @@ def chat_parse():
     buttons = [
         [KeyboardButton(text="👉 Подписался")]
     ]
-    markup = ReplyKeyboardMarkup(keyboard=buttons)
+    markup = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
     return markup
 
 
@@ -19,6 +19,6 @@ def main_keyboard():
         [KeyboardButton(text="👉 FAQ заводы/выводы")],
         [KeyboardButton(text="👉 Обратная связь")]
     ]
-    markup = ReplyKeyboardMarkup(keyboard=buttons)
+    markup = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
 
     return markup

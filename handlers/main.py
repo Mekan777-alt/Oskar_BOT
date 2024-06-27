@@ -9,7 +9,7 @@ router = Router()
 
 @router.message(Command('start'))
 async def start(message: types.Message):
-    channel_id = '-1002161715921'
+    channel_id = '@OskarCapital'
     if not await is_subscribed(message.from_user.id, channel_id):
         await message.answer('Вы должны подписаться на наш канал, чтобы получить доступ к этому контенту!\n\n'
                              'https://t.me/+cWldq2n39Sw1N2Fi',
