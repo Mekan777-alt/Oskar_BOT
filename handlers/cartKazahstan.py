@@ -15,7 +15,7 @@ router = Router()
 
 @router.message(F.text == "👉 Карта Казахстана")
 async def get_cart(message: types.Message):
-    await message.answer("Тут будет какое-то описание данного раздела", reply_markup=cart_kazahstan())
+    await message.answer("Инвестиционные счета:", reply_markup=cart_kazahstan())
 
 
 @router.message(F.text == "👉 Инструкция по открытию есть ИИН/НЕТ ИИН")
