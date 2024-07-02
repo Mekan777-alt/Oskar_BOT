@@ -3,7 +3,7 @@ from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 from keyboard.cartKazahstan import cart_kazahstan, cancel_cart_kazahstan, back_message
 from context.cart_kazahstan_context import GetInfo
-from config import bot, send_message
+from config import bot, send_message_to_user
 from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
 from db.repository.cart_kazahstan1_3 import get_document1_3, get_document_reserved1_3, message_for_cart_kazahstan1_3
 from .settings import download_file, delete_file
@@ -50,7 +50,7 @@ async def get_IIN(message: types.Message, state: FSMContext):
     await state.update_data(IIN=message.text)
     data = await state.get_data()
 
-    await bot.send_message(chat_id=send_message,
+    await bot.send_message(chat_id=send_message_to_user,
                            text=f"ФИО - {data['FIO']}\n"
                                 f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
                                 f"ИИН(налоговый номер Казахстана) - {data['IIN']}")
