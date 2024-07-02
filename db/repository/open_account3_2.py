@@ -14,18 +14,18 @@ def get_reference3_2():
 
 def get_document3_2():
     document = session.execute(text("""SELECT item3_2_document FROM admin_panel_openaccount3_2""")).first()
-    if len(document[0]) > 1:
-        return document[0]
-    else:
-        return None
+    if document:
+        if len(document[0]) > 1:
+            return document[0]
+    return None
 
 
 def get_document_reserved3_2():
     document = session.execute(text("""SELECT item3_2_document_reserve FROM admin_panel_openaccount3_2""")).first()
-    if len(document[0]) > 1:
-        return document[0]
-    else:
-        return None
+    if document:
+        if len(document[0]) > 1:
+            return document[0]
+    return None
 
 
 def message_for_open_account3_2():

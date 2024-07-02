@@ -14,18 +14,18 @@ def get_reference1_2():
 
 def get_document1_2():
     document = session.execute(text("""SELECT item1_2_document FROM admin_panel_kazahstancart1_2""")).first()
-    if len(document[0]) > 1:
-        return document[0]
-    else:
-        return None
+    if document:
+        if len(document[0]) > 1:
+            return document[0]
+    return None
 
 
 def get_document_reserved1_2():
     document = session.execute(text("""SELECT item1_2_document_reserve FROM admin_panel_kazahstancart1_2""")).first()
-    if len(document[0]) > 1:
-        return document[0]
-    else:
-        return None
+    if document:
+        if len(document[0]) > 1:
+            return document[0]
+    return None
 
 
 def message_for_cart_kazahstan1_2():
