@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 async def insert_data(data):
     query = text("""INSERT INTO admin_panel_requestuser 
-               (first_name, last_name, patronymic, phone_number, IIN) 
+               (first_name, last_name, patronymic, phone_number, iin) 
                VALUES (:first_name, :last_name, :patronymic, :phone_number, :IIN)""")
     await session.execute(query,
                           {"first_name": data['first_name'],
