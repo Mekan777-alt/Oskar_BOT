@@ -16,7 +16,7 @@ def main_keyboard():
         [KeyboardButton(text="👉 Открытие счетов")],
         [KeyboardButton(text="👉 Переход в чат")],
         [KeyboardButton(text="👉 Перестановка USDT")],
-        [KeyboardButton(text="👉 FAQ заводы/выводы")],
+        # [KeyboardButton(text="👉 FAQ заводы/выводы")],
         [KeyboardButton(text="👉 Обратная связь")]
     ]
     markup = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)

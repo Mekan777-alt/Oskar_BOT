@@ -24,4 +24,5 @@ bot = Bot(token=token)
 
 dp = Dispatcher(bot=bot, storage=MemoryStorage())
 
-send_message = os.getenv("SEND_MESSAGE")
+send_message = os.getenv("SEND_MESSAGE_TO_USER")
+send_message_to_group = os.getenv("SEND_MESSAGE_TO_GROUP")
