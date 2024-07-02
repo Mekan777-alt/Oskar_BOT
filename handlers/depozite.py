@@ -21,10 +21,13 @@ async def check_depozite(message: types.Message):
     message_text = message_for_deposited()
     if len(message_text) > 2:
         await message.answer(text=message_text, reply_markup=main_keyboard())
+
     else:
         await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     document_url = get_document()
     if document_url:
+        await bot.send_chat_action(chat_id=message.from_user.id, action="upload_document")
+
         local_filename = str(document_url).split('/')[-1]
         try:
             file_down = await download_file(f"http://91.142.74.227:8000/media/{document_url}", local_filename)
@@ -37,6 +40,9 @@ async def check_depozite(message: types.Message):
 
     document_reserved_url = get_document_reserved()
     if document_reserved_url:
+
+        await bot.send_chat_action(chat_id=message.from_user.id, action="upload_document")
+
         local_filename = str(document_reserved_url).split('/')[-1]
         try:
             file_down = await download_file(f"http://91.142.74.227:8000/media/{document_reserved_url}", local_filename)

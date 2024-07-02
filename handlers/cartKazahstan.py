@@ -9,6 +9,7 @@ from db.repository.cart_kazahstan1_3 import get_document1_3, get_document_reserv
 from .settings import download_file, delete_file
 from aiogram.types import FSInputFile
 
+
 router = Router()
 
 
@@ -19,16 +20,9 @@ async def get_cart(message: types.Message):
 
 @router.message(F.text == "👉 Инструкция по открытию есть ИИН/НЕТ ИИН")
 async def get_inform_user(message: types.Message, state: FSMContext):
-    await message.answer("Пожалуйста, введите ваше имя:", reply_markup=types.ReplyKeyboardRemove())
+    await message.answer("Пожалуйста, введите ваше ФИО:", reply_markup=types.ReplyKeyboardRemove())
 
-    await state.set_state(GetInfo.first_name)
-
-
-@router.message(GetInfo.first_name)
-async def get_first_name(message: types.Message, state: FSMContext):
-    await state.update_data(first_name=message.text)
-    await message.answer("Пожалуйста, введите вашу фамилию:", reply_markup=cart_kazahstan())
-    await state.set_state(GetInfo.last_name)
+    await state.set_state(GetInfo.FIO)
 
 
 @router.message(F.text == "👉 Отменить")
@@ -37,14 +31,7 @@ async def cancel_cart(message: types.Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(GetInfo.last_name)
-async def get_last_name(message: types.Message, state: FSMContext):
-    await state.update_data(last_name=message.text)
-    await message.answer("Пожалуйста, введите ваше отчество:")
-    await state.set_state(GetInfo.patronymic)
-
-
-@router.message(GetInfo.patronymic)
+@router.message(GetInfo.FIO)
 async def get_patronymic(message: types.Message, state: FSMContext):
     await state.update_data(patronymic=message.text)
     await message.answer("Пожалуйста, введите ваш номер телефона:")
@@ -64,9 +51,7 @@ async def get_IIN(message: types.Message, state: FSMContext):
     data = await state.get_data()
 
     await bot.send_message(chat_id=send_message,
-                           text=f"ИМЯ - {data['first_name']}\n"
-                                f"ФАМИЛИЯ - {data['last_name']}\n"
-                                f"ОТЧЕСТВО - {data['patronymic']}\n"
+                           text=f"ФИО - {data['FIO']}\n"
                                 f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
                                 f"ИИН(налоговый номер Казахстана) - {data['IIN']}")
     await message.answer("Заявка успешно отправлена", reply_markup=main_keyboard())
@@ -78,6 +63,8 @@ async def get_instructions_IIN(message: types.Message):
     message_text = message_for_cart_kazahstan1_2()
     if len(message_text) > 2:
         await message.answer(text=message_text, reply_markup=main_keyboard())
+        await bot.send_chat_action(chat_id=message.from_user.id, action="upload_document")
+
     else:
         await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     document_url = get_document1_2()
@@ -110,10 +97,12 @@ async def send_request_(message: types.Message):
     message_text = message_for_cart_kazahstan1_3()
     if len(message_text) > 2:
         await message.answer(text=message_text, reply_markup=main_keyboard())
+
     else:
         await message.answer(text="Заполните данные в админке", markup=main_keyboard())
     document_url = get_document1_3()
     if document_url:
+        await bot.send_chat_action(chat_id=message.from_user.id, action="upload_document")
         local_filename = str(document_url).split('/')[-1]
         try:
             file_down = await download_file(f"http://91.142.74.227:8000/media/{document_url}", local_filename)
@@ -126,6 +115,8 @@ async def send_request_(message: types.Message):
 
     document_reserved_url = get_document_reserved1_3()
     if document_reserved_url:
+        await bot.send_chat_action(chat_id=message.from_user.id, action="upload_document")
+
         local_filename = str(document_reserved_url).split('/')[-1]
         try:
             file_down = await download_file(f"http://91.142.74.227:8000/media/{document_reserved_url}", local_filename)
