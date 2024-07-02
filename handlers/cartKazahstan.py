@@ -33,7 +33,7 @@ async def cancel_cart(message: types.Message, state: FSMContext):
 
 @router.message(GetInfo.FIO)
 async def get_patronymic(message: types.Message, state: FSMContext):
-    await state.update_data(patronymic=message.text)
+    await state.update_data(FIO=message.text)
     await message.answer("Пожалуйста, введите ваш номер телефона:")
     await state.set_state(GetInfo.phone_number)
 
