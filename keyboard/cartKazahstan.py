@@ -22,3 +22,13 @@ def cancel_cart_kazahstan():
     markup = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
 
     return markup
+
+
+def back_message():
+    buttons = [
+        [KeyboardButton(text="👉 Назад")]
+    ]
+
+    markup = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
+
+    return markup

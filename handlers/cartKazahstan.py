@@ -1,7 +1,7 @@
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
-from keyboard.cartKazahstan import cart_kazahstan, cancel_cart_kazahstan
+from keyboard.cartKazahstan import cart_kazahstan, cancel_cart_kazahstan, back_message
 from context.cart_kazahstan_context import GetInfo
 from config import bot, send_message
 from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
@@ -20,7 +20,7 @@ async def get_cart(message: types.Message):
 
 @router.message(F.text == "👉 Инструкция по открытию есть ИИН/НЕТ ИИН")
 async def get_inform_user(message: types.Message, state: FSMContext):
-    await message.answer("Пожалуйста, введите ваше ФИО:", reply_markup=types.ReplyKeyboardRemove())
+    await message.answer("Пожалуйста, введите ваше ФИО:", reply_markup=cancel_cart_kazahstan())
 
     await state.set_state(GetInfo.FIO)
 
