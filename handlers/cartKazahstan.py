@@ -1,7 +1,7 @@
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
-from keyboard.cartKazahstan import cart_kazahstan
+from keyboard.cartKazahstan import cart_kazahstan, cancel_cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
 from config import bot, send_message
 from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
@@ -27,8 +27,14 @@ async def get_inform_user(message: types.Message, state: FSMContext):
 @router.message(GetInfo.first_name)
 async def get_first_name(message: types.Message, state: FSMContext):
     await state.update_data(first_name=message.text)
-    await message.answer("Пожалуйста, введите вашу фамилию:")
+    await message.answer("Пожалуйста, введите вашу фамилию:", reply_markup=cart_kazahstan())
     await state.set_state(GetInfo.last_name)
+
+
+@router.message(F.text == "👉 Отменить")
+async def cancel_cart(message: types.Message, state: FSMContext):
+    await message.answer("Отменено!", reply_markup=cart_kazahstan())
+    await state.clear()
 
 
 @router.message(GetInfo.last_name)
