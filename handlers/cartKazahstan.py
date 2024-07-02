@@ -1,12 +1,12 @@
-import asyncio
 from keyboard.main import main_keyboard
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 from keyboard.cartKazahstan import cart_kazahstan
 from context.cart_kazahstan_context import GetInfo
-from config import bot
+from config import bot, send_message
 from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
 from db.repository.cart_kazahstan1_3 import get_document1_3, get_document_reserved1_3, message_for_cart_kazahstan1_3
+from db.repository.cart_kazahstan_1_1 import insert_data
 from .settings import download_file, delete_file
 from aiogram.types import FSInputFile
 
@@ -57,14 +57,13 @@ async def get_phone_number(message: types.Message, state: FSMContext):
 async def get_IIN(message: types.Message, state: FSMContext):
     await state.update_data(IIN=message.text)
     data = await state.get_data()
-    await message.answer("Будет отправляться сообщение такого формата куда-то в канал или в чат личку или в группу")
-    await asyncio.sleep(1)
-    await message.answer(f"ИМЯ - {data['first_name']}\n"
-                         f"ФАМИЛИЯ - {data['last_name']}\n"
-                         f"ОТЧЕСТВО - {data['patronymic']}\n"
-                         f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
-                         f"ИИН(налоговый номер Казахстана) - {data['IIN']}", reply_markup=main_keyboard())
-    await message.answer("Еще будет сообщение пользователю по типу все успешно отправилось ожидайте звонка или тп")
+
+    await insert_data(data)
+    await bot.send_message(chat_id=send_message, text=f"ИМЯ - {data['first_name']}\n"
+                           f"ФАМИЛИЯ - {data['last_name']}\n"
+                           f"ОТЧЕСТВО - {data['patronymic']}\n"
+                           f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
+                           f"ИИН(налоговый номер Казахстана) - {data['IIN']}", reply_markup=main_keyboard())
     await state.clear()
 
 
@@ -130,7 +129,6 @@ async def send_request_(message: types.Message):
             await message.answer(text=f"Ошибка загрузки документа: {e}")
         finally:
             await delete_file(local_filename)
-
 
 
 @router.message(F.text == "👉 В главное меню")

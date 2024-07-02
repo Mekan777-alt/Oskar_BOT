@@ -23,3 +23,5 @@ token = os.getenv('TOKEN')
 bot = Bot(token=token)
 
 dp = Dispatcher(bot=bot, storage=MemoryStorage())
+
+send_message = os.getenv("SEND_MESSAGE")
