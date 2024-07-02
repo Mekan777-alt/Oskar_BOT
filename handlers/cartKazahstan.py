@@ -58,12 +58,13 @@ async def get_IIN(message: types.Message, state: FSMContext):
     await state.update_data(IIN=message.text)
     data = await state.get_data()
 
-    await insert_data(data)
-    await bot.send_message(chat_id=send_message, text=f"ИМЯ - {data['first_name']}\n"
-                           f"ФАМИЛИЯ - {data['last_name']}\n"
-                           f"ОТЧЕСТВО - {data['patronymic']}\n"
-                           f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
-                           f"ИИН(налоговый номер Казахстана) - {data['IIN']}", reply_markup=main_keyboard())
+    await bot.send_message(chat_id=send_message,
+                           text=f"ИМЯ - {data['first_name']}\n"
+                                f"ФАМИЛИЯ - {data['last_name']}\n"
+                                f"ОТЧЕСТВО - {data['patronymic']}\n"
+                                f"ТЕЛЕФОН НОМЕР - {data['phone_number']}\n"
+                                f"ИИН(налоговый номер Казахстана) - {data['IIN']}")
+    await message.answer("Заявка успешно отправлена", reply_markup=main_keyboard())
     await state.clear()
 
 
