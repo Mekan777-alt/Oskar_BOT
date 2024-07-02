@@ -18,7 +18,7 @@ async def get_depozite(message: types.Message):
                          reply_markup=markup_depozite())
 
 
-@router.message(F.text == "👉 Cчет открыт")
+@router.message(F.text == "👉 Cчет открыть")
 async def check_depozite(message: types.Message):
     message_text = message_for_deposited()
     if len(message_text) > 2:

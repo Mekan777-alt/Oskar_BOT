@@ -3,8 +3,8 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 def markup_depozite():
     buttons = [
-        [KeyboardButton(text="👉 Cчет открыт")],
-        [KeyboardButton(text="👉 Cчет не открыт")],
+        [KeyboardButton(text="👉 Cчет открыть")],
+        # [KeyboardButton(text="👉 Cчет не открыт")],
         [KeyboardButton(text="👉 В главное меню")],
     ]
 
