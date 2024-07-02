@@ -13,7 +13,7 @@ router = Router()
 
 @router.message(F.text == "👉 Открытие счетов")
 async def open_account(message: types.Message):
-    await message.answer("Тут описание раздела", reply_markup=open_account_markup())
+    await message.answer("https://t.me/OskarAhmetov", reply_markup=main_keyboard())
 
 
 @router.message(F.text == "👉 АМ")
