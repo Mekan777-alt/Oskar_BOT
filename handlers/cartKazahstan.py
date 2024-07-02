@@ -6,7 +6,6 @@ from context.cart_kazahstan_context import GetInfo
 from config import bot, send_message
 from db.repository.cart_kazahstan1_2 import get_document1_2, get_document_reserved1_2, message_for_cart_kazahstan1_2
 from db.repository.cart_kazahstan1_3 import get_document1_3, get_document_reserved1_3, message_for_cart_kazahstan1_3
-from db.repository.cart_kazahstan_1_1 import insert_data
 from .settings import download_file, delete_file
 from aiogram.types import FSInputFile
 
